@@ -1,26 +1,55 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import './App.css'
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <h1 className="pt-3 pb-2">Todo List</h1>
+      <div className="row">
+        <div className="col-md-6 pb-4">
+          <TodoInputForm />
+        </div>
+        <div className="col-md-6">
+          <TodoList />
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+const TodoInputForm = () => {
+  const [ todoText, setTodoText ] = useState('')
+
+  const addTodo = (event) => {
+    event.preventDefault()
+    console.log(`Adding todo: ${todoText}`)
+    setTodoText('')
+  }
+
+  return (
+    <form onSubmit={addTodo}>
+      <input
+        className="form-control col rounded-0"
+        type="text"
+        placeholder="What do you have to do?"
+        value={todoText}
+        onChange={event => setTodoText(event.target.value)} />
+      <input
+        className="btn btn-primary col rounded-0"
+        type="submit"
+        value="Add Todo" />
+    </form>
+  )
+}
+
+const TodoList = () => {
+  return (
+    <ul className="list-group">
+      <li className="list-group-item">Get apples.</li>
+      <li className="list-group-item">Get bananas.</li>
+      <li className="list-group-item">Get pears.</li>
+    </ul>
+  )
+}
+
+export default App
