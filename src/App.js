@@ -44,10 +44,10 @@ const TodoInputForm = () => {
 
 const TodoList = () => {
   return (
-    <ul className="list-group">
-      <li className="list-group-item">Get apples.</li>
-      <li className="list-group-item">Get bananas.</li>
-      <li className="list-group-item">Get pears.</li>
+    <ul className="list-group rounded-0">
+      <li className="list-group-item rounded-0">Get apples.</li>
+      <li className="list-group-item rounded-0">Get bananas.</li>
+      <li className="list-group-item rounded-0">Get pears.</li>
     </ul>
   )
 }
