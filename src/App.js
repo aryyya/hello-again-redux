@@ -29,7 +29,7 @@ const TodoInputForm = () => {
   return (
     <form onSubmit={addTodo}>
       <input
-        className="form-control col rounded-0"
+        className="form-control col rounded-0 mb-2"
         type="text"
         placeholder="What do you have to do?"
         value={todoText}
