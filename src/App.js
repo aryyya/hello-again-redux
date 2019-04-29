@@ -9,6 +9,28 @@ const getIdGenerator = () => {
 }
 const getId = getIdGenerator()
 
+
+const todo = (state, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return {
+        id: action.id,
+        text: action.text,
+        isComplete: false
+      }
+    case 'TOGGLE_TODO':
+      if (state.id === action.id) {
+        return {
+          ...state,
+          isComplete: !state.isComplete
+        }
+      }
+      return state
+    default:
+      return state
+  }
+}
+
 const defaultTodos = [
   {
     text: 'Wake up.',
@@ -32,15 +54,10 @@ const todos = (state = defaultTodos, action) => {
     case 'ADD_TODO':
       return [
         ...state,
-        action.todo
+        todo(undefined, action)
       ]
     case 'TOGGLE_TODO':
-      return state.map(todo => {
-        if (todo.id === action.id) {
-          todo.isComplete = !todo.isComplete
-        }
-        return todo
-      })
+      return state.map(todo_ => todo(todo_, action))
     default:
       return state
   }
@@ -52,11 +69,8 @@ const testAddTodo = () => {
   const stateBefore = []
   const action = {
     type: 'ADD_TODO',
-    todo: {
-      text: 'Learn Redux',
-      isCompleted: false,
-      id: 0
-    }
+    text: 'Learn Redux',
+    id: 0
   }
   Object.freeze(stateBefore)
   Object.freeze(action)
@@ -64,7 +78,7 @@ const testAddTodo = () => {
   const stateAfter = [
     {
       text: 'Learn Redux',
-      isCompleted: false,
+      isComplete: false,
       id: 0
     }
   ]
@@ -126,11 +140,8 @@ const TodoInputForm = () => {
 
     store.dispatch({
       type: 'ADD_TODO',
-      todo: {
-        text: todoText,
-        isComplete: false,
-        id: getId()
-      }
+      text: todoText,
+      id: getId()
     })
 
     setTodoText('')
