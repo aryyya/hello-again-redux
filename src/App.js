@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import './App.css'
 import { createStore } from 'redux'
+import assert from 'assert'
 
 const getIdGenerator = () => {
   let id = 0
@@ -8,54 +9,98 @@ const getIdGenerator = () => {
 }
 const getId = getIdGenerator()
 
-const defaultTodos = {
-  todos: [
-    {
-      text: 'Wake up.',
-      isComplete: true,
-      id: getId()
-    },
-    {
-      text: 'Make breakfast.',
-      isComplete: false,
-      id: getId()
-    },
-    {
-      text: 'Head to class.',
-      isComplete: false,
-      id: getId()
-    }
-  ]
-}
+const defaultTodos = [
+  {
+    text: 'Wake up.',
+    isComplete: true,
+    id: getId()
+  },
+  {
+    text: 'Make breakfast.',
+    isComplete: false,
+    id: getId()
+  },
+  {
+    text: 'Head to class.',
+    isComplete: false,
+    id: getId()
+  }
+]
 
 const todos = (state = defaultTodos, action) => {
   switch (action.type) {
     case 'ADD_TODO':
-      return {
+      return [
         ...state,
-        todos: [
-          ...state.todos,
-          action.todo
-        ]
-      }
+        action.todo
+      ]
     case 'TOGGLE_TODO':
-      return {
-        ...state,
-        todos: [
-          ...state.todos.map(todo => {
-            if (todo.id === action.todo.id) {
-              todo.isComplete = !todo.isComplete
-            }
-            return todo
-          })
-        ]
-      }
+      return state.map(todo => {
+        if (todo.id === action.id) {
+          todo.isComplete = !todo.isComplete
+        }
+        return todo
+      })
     default:
       return state
   }
 }
 
 export const store = createStore(todos)
+
+const testAddTodo = () => {
+  const stateBefore = []
+  const action = {
+    type: 'ADD_TODO',
+    todo: {
+      text: 'Learn Redux',
+      isCompleted: false,
+      id: 0
+    }
+  }
+  Object.freeze(stateBefore)
+  Object.freeze(action)
+
+  const stateAfter = [
+    {
+      text: 'Learn Redux',
+      isCompleted: false,
+      id: 0
+    }
+  ]
+
+  assert.deepStrictEqual(
+    todos(stateBefore, action),
+    stateAfter,
+    "test ADD_TODO"
+  )
+}
+testAddTodo()
+
+const testToggleTodo = () => {
+  const stateBefore = [
+    { text: 'Eat oranges.', isComplete: false, id: 0 },
+    { text: 'Eat bananas.', isComplete: false, id: 1 }
+  ]
+  const action = {
+    type: 'TOGGLE_TODO',
+    id: 1
+  }
+  Object.freeze(stateBefore)
+  Object.freeze(action)
+
+  const stateAfter = [
+    { text: 'Eat oranges.', isComplete: false, id: 0 },
+    { text: 'Eat bananas.', isComplete: true,  id: 1 }
+  ]
+
+  assert.deepStrictEqual(
+    todos(stateBefore, action),
+    stateAfter,
+    'test TOGGLE_TODO'
+  )
+}
+testToggleTodo()
 
 const App = () => {
   return (
@@ -108,12 +153,12 @@ const TodoInputForm = () => {
 }
 
 const TodoList = () => {
-  const { todos } = store.getState()
+  const todos = store.getState()
 
-  const toggleTodo = todo => {
+  const toggleTodo = id => {
     store.dispatch({
       type: 'TOGGLE_TODO',
-      todo
+      id
     })
   }
 
@@ -128,7 +173,7 @@ const TodoList = () => {
           <li
             className="list-group-item rounded-0"
             style={style}
-            onClick={() => toggleTodo(todo)}
+            onClick={() => toggleTodo(todo.id)}
             key={todo.id}>
             {todo.text}
           </li>
