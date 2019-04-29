@@ -2,19 +2,28 @@ import React, { useState } from 'react'
 import './App.css'
 import { createStore } from 'redux'
 
+const getIdGenerator = () => {
+  let id = 0
+  return () => id++
+}
+const getId = getIdGenerator()
+
 const defaultTodos = {
   todos: [
     {
       text: 'Wake up.',
-      isComplete: true
+      isComplete: true,
+      id: getId()
     },
     {
       text: 'Make breakfast.',
-      isComplete: false
+      isComplete: false,
+      id: getId()
     },
     {
       text: 'Head to class.',
-      isComplete: false
+      isComplete: false,
+      id: getId()
     }
   ]
 }
@@ -34,7 +43,7 @@ const todos = (state = defaultTodos, action) => {
         ...state,
         todos: [
           ...state.todos.map(todo => {
-            if (todo.text === action.todo.text) {
+            if (todo.id === action.todo.id) {
               todo.isComplete = !todo.isComplete
             }
             return todo
@@ -74,7 +83,8 @@ const TodoInputForm = () => {
       type: 'ADD_TODO',
       todo: {
         text: todoText,
-        isComplete: false
+        isComplete: false,
+        id: getId()
       }
     })
 
@@ -119,7 +129,7 @@ const TodoList = () => {
             className="list-group-item rounded-0"
             style={style}
             onClick={() => toggleTodo(todo)}
-            key={todo.text}>
+            key={todo.id}>
             {todo.text}
           </li>
         )
