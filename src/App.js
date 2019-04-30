@@ -160,7 +160,22 @@ const testVisibilityFilterShowComplete = () => {
 }
 testVisibilityFilterShowComplete()
 
-const todoApp = combineReducers({
+const myCombineReducers = reducers => {
+  return (
+    state = {},
+    action
+  ) => {
+    return Object.keys(reducers).reduce((nextState, reducerKey) => {
+      const reducer = reducers[reducerKey]
+      return {
+        ...nextState,
+        [reducerKey]: reducer(state[reducerKey], action)
+      }
+    }, {})
+  }
+}
+
+const todoApp = myCombineReducers({
   todos,
   visibilityFilter
 })
