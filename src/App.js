@@ -183,9 +183,9 @@ export const store = createStore(
 const App = () => {
   return (
     <div className="container">
-      <h1 className="pt-3 pb-2">Todo List</h1>
       <div className="row">
-        <div className="col-md-6 pb-4">
+        <div className="col-md-6">
+          <h1 className="pt-3 pb-2">Todo List</h1>
           <TodoInputForm />
           <VisibilityButtons />
         </div>
@@ -251,24 +251,36 @@ const TodoList = () => {
     }
   })
 
+  const titleText = (() => {
+    switch (visibilityFilter) {
+      case 'SHOW_ALL':        return 'All Todos'
+      case 'SHOW_COMPLETE':   return 'Complete Todos'
+      case 'SHOW_INCOMPLETE': return 'Incomplete Todos'
+      default:                return ''
+    }
+  })()
+
   return (
-    <ul className="list-group rounded-0">
-      {filteredTodos.map(todo => {
-        const style = {
-          userSelect: 'none',
-          textDecoration: todo.isComplete ? 'line-through' : 'none'
-        }
-        return (
-          <li
-            className="list-group-item rounded-0"
-            style={style}
-            onClick={() => toggleTodo(todo.id)}
-            key={todo.id}>
-            {todo.text}
-          </li>
-        )
-      })}
-    </ul>
+    <div>
+      <h3 className="pt-3 pb-2 text-md-right">{titleText} ({filteredTodos.length})</h3>
+      <ul className="list-group rounded-0">
+        {filteredTodos.map(todo => {
+          const style = {
+            userSelect: 'none',
+            textDecoration: todo.isComplete ? 'line-through' : 'none'
+          }
+          return (
+            <li
+              className="list-group-item rounded-0"
+              style={style}
+              onClick={() => toggleTodo(todo.id)}
+              key={todo.id}>
+              {todo.text}
+            </li>
+          )
+        })}
+      </ul>
+    </div>
   )
 }
 
