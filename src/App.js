@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './App.css'
-import { createStore, combineReducers } from 'redux'
+import { createStore } from 'redux'
 import assert from 'assert'
 
 const getIdGenerator = () => {
@@ -161,18 +161,22 @@ const testVisibilityFilterShowComplete = () => {
 testVisibilityFilterShowComplete()
 
 const myCombineReducers = reducers => {
-  return (
+  const reducersKeys = Object.keys(reducers)
+  const topReducer = (
     state = {},
     action
   ) => {
-    return Object.keys(reducers).reduce((nextState, reducerKey) => {
-      const reducer = reducers[reducerKey]
+    return reducersKeys.reduce((nextState, reducerKey) => {
+      const currentReducer = reducers[reducerKey]
+      const currentState = state[reducerKey]
       return {
         ...nextState,
-        [reducerKey]: reducer(state[reducerKey], action)
+        [reducerKey]: currentReducer(currentState, action)
       }
     }, {})
   }
+
+  return topReducer
 }
 
 const todoApp = myCombineReducers({
