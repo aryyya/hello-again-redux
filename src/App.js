@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './App.css'
-import { createStore } from 'redux'
+import { createStore, combineReducers } from 'redux'
 import assert from 'assert'
 
 const getIdGenerator = () => {
@@ -160,21 +160,11 @@ const testVisibilityFilterShowComplete = () => {
 }
 testVisibilityFilterShowComplete()
 
-const todoApp = (
-  state = {},
-  action
-) => {
-  return {
-    todos: todos(
-      state.todos,
-      action
-    ),
-    visibilityFilter: visibilityFilter(
-      state.visibilityFilter,
-      action
-    )
-  }
-}
+const todoApp = combineReducers({
+  todos,
+  visibilityFilter
+})
+
 export const store = createStore(
   todoApp,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
