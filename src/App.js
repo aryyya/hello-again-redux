@@ -175,7 +175,10 @@ const todoApp = (
     )
   }
 }
-export const store = createStore(todoApp)
+export const store = createStore(
+  todoApp,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 console.log(store.getState())
 
@@ -186,6 +189,7 @@ const App = () => {
       <div className="row">
         <div className="col-md-6 pb-4">
           <TodoInputForm />
+          <VisibilityButtons />
         </div>
         <div className="col-md-6">
           <TodoList />
@@ -213,7 +217,7 @@ const TodoInputForm = () => {
   return (
     <form onSubmit={addTodo}>
       <input
-        className="form-control col rounded-0 mb-2"
+        className="form-control col rounded-0 mb-3"
         type="text"
         placeholder="What do you have to do?"
         value={todoText}
@@ -227,7 +231,7 @@ const TodoInputForm = () => {
 }
 
 const TodoList = () => {
-  const { todos } = store.getState()
+  const { todos, visibilityFilter } = store.getState()
 
   const toggleTodo = id => {
     store.dispatch({
@@ -236,9 +240,22 @@ const TodoList = () => {
     })
   }
 
+  const filteredTodos = todos.filter(todo => {
+    switch (visibilityFilter) {
+      case 'SHOW_ALL':
+        return true
+      case 'SHOW_COMPLETE':
+        return todo.isComplete
+      case 'SHOW_INCOMPLETE':
+        return !todo.isComplete
+      default:
+        return true
+    }
+  })
+
   return (
     <ul className="list-group rounded-0">
-      {todos.map(todo => {
+      {filteredTodos.map(todo => {
         const style = {
           userSelect: 'none',
           textDecoration: todo.isComplete ? 'line-through' : 'none'
@@ -254,6 +271,45 @@ const TodoList = () => {
         )
       })}
     </ul>
+  )
+}
+
+const VisibilityButtons = () => {
+
+  const setVisibility = filter => {
+    store.dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter
+    })
+  }
+
+  const buttonStyle = {
+    fontSize: '14px'
+  }
+  return (
+    <div className="row p-3">
+      <button
+        className="btn btn-success col rounded-0"
+        style={buttonStyle}
+        type="button"
+        onClick={() => setVisibility('SHOW_ALL')}>
+        All
+      </button>
+      <button
+        className="btn btn-warning col rounded-0"
+        style={buttonStyle}
+        type="button"
+        onClick={() => setVisibility('SHOW_COMPLETE')}>
+        Complete
+      </button>
+      <button
+        className="btn btn-danger col rounded-0"
+        style={buttonStyle}
+        type="button"
+        onClick={() => setVisibility('SHOW_INCOMPLETE')}>
+        Incomplete
+      </button>
+    </div>
   )
 }
 
