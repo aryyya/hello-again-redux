@@ -9,7 +9,6 @@ const getIdGenerator = () => {
 }
 const getId = getIdGenerator()
 
-
 const todo = (state, action) => {
   switch (action.type) {
     case 'ADD_TODO':
@@ -162,7 +161,7 @@ testVisibilityFilterShowComplete()
 
 const myCombineReducers = reducers => {
   const reducersKeys = Object.keys(reducers)
-  const topReducer = (
+  const getTopReducer = (
     state = {},
     action
   ) => {
@@ -175,8 +174,7 @@ const myCombineReducers = reducers => {
       }
     }, {})
   }
-
-  return topReducer
+  return getTopReducer
 }
 
 const todoApp = myCombineReducers({
