@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './App.css'
-import { createStore } from 'redux'
+// import { createStore, combineReducers } from 'redux'
 import assert from 'assert'
 
 const getIdGenerator = () => {
@@ -182,9 +182,27 @@ const todoApp = myCombineReducers({
   visibilityFilter
 })
 
-export const store = createStore(
+const myCreateStore = topReducer => {
+  let state
+  const subscribers = []
+
+  const getState = () => state
+
+  const subscribe = subscriber => subscribers.push(subscriber)
+
+  const dispatch = action => {
+    state = topReducer(state, action)
+    subscribers.forEach(subscriber => subscriber())
+  }
+
+  state = topReducer(state, {})
+
+  return { getState, subscribe, dispatch }
+}
+
+export const store = myCreateStore(
   todoApp,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
 const App = () => {
