@@ -57,6 +57,8 @@ const todos = (state = defaultTodos, action) => {
       ]
     case 'TOGGLE_TODO':
       return state.map(todo_ => todo(todo_, action))
+    case 'DELETE_TODO':
+      return state.filter(todo => todo.id !== action.id)
     default:
       return state
   }
@@ -263,6 +265,14 @@ const TodoList = () => {
     })
   }
 
+  const deleteTodo = (event, id) => {
+    event.stopPropagation()
+    store.dispatch({
+      type: 'DELETE_TODO',
+      id
+    })
+  }
+
   const filteredTodos = todos.filter(todo => {
     switch (visibilityFilter) {
       case 'SHOW_ALL':
@@ -291,8 +301,20 @@ const TodoList = () => {
       <ul className="list-group rounded-0">
         {filteredTodos.map(todo => {
           const style = {
-            userSelect: 'none',
+            display: 'flex',
+            justifyContent: 'space-between',
+            userSelect: 'none'
+          }
+          const textStyle = {
             textDecoration: todo.isComplete ? 'line-through' : 'none'
+          }
+          const deleteStyle = {
+            cursor: 'pointer',
+            width: '25px',
+            height: '25px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
           }
           return (
             <li
@@ -300,7 +322,18 @@ const TodoList = () => {
               style={style}
               onClick={() => toggleTodo(todo.id)}
               key={todo.id}>
-              {todo.text}
+              <span style={textStyle}>
+                {todo.text}
+              </span>
+              <span
+                className="todo__delete"
+                style={deleteStyle}
+                onClick={(event) => deleteTodo(event, todo.id)}>
+                <img
+                  style={{ width: '15px' }}
+                  src="/trash.svg"
+                  alt="Delete todo item." />
+              </span>
             </li>
           )
         })}
