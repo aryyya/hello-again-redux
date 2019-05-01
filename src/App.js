@@ -3,9 +3,10 @@ import './App.css'
 import { getId } from './utility'
 import store from './store'
 
-const App = props => {
-  const { todos, visibilityFilter } = props
-
+const App = ({
+  todos,
+  visibilityFilter
+}) => {
   return (
     <div className="container">
       <div className="row">
@@ -57,9 +58,10 @@ const TodoInputForm = () => {
   )
 }
 
-const TodoList = props => {
-  const { todos, visibilityFilter } = props
-
+const TodoList = ({
+  todos,
+  visibilityFilter
+}) => {
   const toggleTodo = id => {
     store.dispatch({
       type: 'TOGGLE_TODO',
@@ -144,9 +146,9 @@ const TodoList = props => {
   )
 }
 
-const VisibilityButtons = props => {
-  const { todos } = props
-
+const VisibilityButtons = ({
+  todos
+}) => {
   const setVisibility = filter => {
     store.dispatch({
       type: 'SET_VISIBILITY_FILTER',
