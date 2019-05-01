@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App, { store } from './App';
+import App from './App';
+import store from './store'
 import * as serviceWorker from './serviceWorker';
 
 const root = document.getElementById('root')
