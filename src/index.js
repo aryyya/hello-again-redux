@@ -6,7 +6,12 @@ import store from './store'
 import * as serviceWorker from './serviceWorker';
 
 const root = document.getElementById('root')
-const renderApp = () => ReactDOM.render(<App />, root)
+const renderApp = () => {
+  ReactDOM.render(
+    <App {...store.getState()} />,
+    root
+  )
+}
 store.subscribe(renderApp)
 renderApp()
 

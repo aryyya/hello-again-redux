@@ -1,21 +1,25 @@
 import React, { useState } from 'react'
 import './App.css'
-import { getIdGenerator } from './utility'
+import { getId } from './utility'
 import store from './store'
 
-const getId = getIdGenerator()
+const App = props => {
+  const { todos, visibilityFilter } = props
 
-const App = () => {
   return (
     <div className="container">
       <div className="row">
         <div className="col-md-6">
           <h1 className="pt-3 pb-2">Todo List</h1>
           <TodoInputForm />
-          <VisibilityButtons />
+          <VisibilityButtons
+            todos={todos}
+            visibilityFilter={visibilityFilter} />
         </div>
         <div className="col-md-6">
-          <TodoList />
+          <TodoList
+            todos={todos}
+            visibilityFilter={visibilityFilter} />
         </div>
       </div>
     </div>
@@ -53,8 +57,8 @@ const TodoInputForm = () => {
   )
 }
 
-const TodoList = () => {
-  const { todos, visibilityFilter } = store.getState()
+const TodoList = props => {
+  const { todos, visibilityFilter } = props
 
   const toggleTodo = id => {
     store.dispatch({
@@ -140,8 +144,8 @@ const TodoList = () => {
   )
 }
 
-const VisibilityButtons = () => {
-  const { todos } = store.getState()
+const VisibilityButtons = props => {
+  const { todos } = props
 
   const setVisibility = filter => {
     store.dispatch({

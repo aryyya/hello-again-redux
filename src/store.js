@@ -1,8 +1,6 @@
 import { myCreateStore, myCombineReducers } from './my-redux'
 import assert from 'assert'
-import { getIdGenerator } from './utility'
-
-const getId = getIdGenerator()
+import { getId } from './utility'
 
 const todo = (state, action) => {
   switch (action.type) {
@@ -161,7 +159,9 @@ const todoApp = myCombineReducers({
   visibilityFilter
 })
 
-export default myCreateStore(
+const store = myCreateStore(
   todoApp,
   // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
+
+export default store
