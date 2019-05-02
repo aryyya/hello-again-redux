@@ -1,4 +1,6 @@
 import React from 'react'
+import './todo-list.css'
+import classnames from 'classnames'
 
 const todoFilterTests = {
   'SHOW_ALL':        ()   => true,
@@ -31,34 +33,22 @@ const TodoList = ({
       <h3 className="pt-3 pb-2 text-md-right">{titleText} ({filteredTodos.length})</h3>
       <ul className="list-group rounded-0">
         {filteredTodos.map(todo => {
-          const style = {
-            display: 'flex',
-            justifyContent: 'space-between',
-            userSelect: 'none'
-          }
-          const textStyle = {
-            textDecoration: todo.isComplete ? 'line-through' : 'none'
-          }
-          const deleteStyle = {
-            cursor: 'pointer',
-            width: '25px',
-            height: '25px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
-          }
+          const classNames = classnames(
+            'todo-list-item',
+            { 'todo-list-item--is-complete': todo.isComplete },
+            'list-group-item',
+            'rounded-0'
+          )
           return (
             <li
-              className="list-group-item rounded-0"
-              style={style}
+              className={classNames}
               onClick={() => toggleTodo(todo.id)}
               key={todo.id}>
-              <span style={textStyle}>
+              <span className="todo-list-item__text">
                 {todo.text}
               </span>
               <span
-                className="todo__delete"
-                style={deleteStyle}
+                className="todo-list-item__delete"
                 onClick={(event) => deleteTodo(todo.id)}>
                 <img
                   style={{ width: '15px' }}
