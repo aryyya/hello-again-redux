@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './App.css'
 import { getId } from './utility'
 import store from './store'
@@ -7,11 +7,20 @@ import TodoInputForm from './components/todo-input-form'
 import VisibilityButtons from './components/visibility-buttons'
 import TodoList from './components/todo-list'
 
+const { dispatch } = store
+
 const addTodo = text => {
-  store.dispatch({
+  dispatch({
     type: 'ADD_TODO',
     text,
     id: getId()
+  })
+}
+
+const setVisibilityFilter = filter => {
+  dispatch({
+    type: 'SET_VISIBILITY_FILTER',
+    filter
   })
 }
 
@@ -28,7 +37,8 @@ const App = ({
             addTodo={addTodo}/>
           <VisibilityButtons
             todos={todos}
-            visibilityFilter={visibilityFilter} />
+            visibilityFilter={visibilityFilter}
+            setVisibilityFilter={setVisibilityFilter} />
         </div>
         <div className="col-md-6">
           <TodoList
