@@ -1,4 +1,6 @@
 import React from 'react'
+import './visibility-buttons.css'
+import classnames from 'classnames'
 
 const getVisibilityFilterCount = todos => {
   return todos.reduce((count, todo) => ({
@@ -8,39 +10,67 @@ const getVisibilityFilterCount = todos => {
   }), { complete: 0, incomplete: 0 })
 }
 
+const visibilityButtons = [
+  { text: 'All',        visibilityFilter: 'SHOW_ALL',        style: 1, count: count => count.complete + count.incomplete },
+  { text: 'Complete',   visibilityFilter: 'SHOW_COMPLETE',   style: 2, count: count => count.complete                    },
+  { text: 'Incomplete', visibilityFilter: 'SHOW_INCOMPLETE', style: 3, count: count => count.incomplete                  }
+]
+
 const VisibilityButtons = ({
   todos,
+  visibilityFilter,
   setVisibilityFilter
 }) => {
   const count = getVisibilityFilterCount(todos)
-  
-  const buttonStyle = {
-    fontSize: '14px'
-  }
+
   return (
     <div className="row p-3">
-      <button
-        className="btn btn-success col rounded-0"
-        style={buttonStyle}
-        type="button"
-        onClick={() => setVisibilityFilter('SHOW_ALL')}>
-        All ({todos.length})
-      </button>
-      <button
-        className="btn btn-warning col rounded-0"
-        style={buttonStyle}
-        type="button"
-        onClick={() => setVisibilityFilter('SHOW_COMPLETE')}>
-        Complete ({count.complete})
-      </button>
-      <button
-        className="btn btn-danger col rounded-0"
-        style={buttonStyle}
-        type="button"
-        onClick={() => setVisibilityFilter('SHOW_INCOMPLETE')}>
-        Incomplete ({count.incomplete})
-      </button>
+      {visibilityButtons.map(b => (
+        <VisibilityButton
+          key={b.visibilityFilter}
+          text={b.text}
+          currentVisibilityFilter={visibilityFilter}
+          visibilityFilter={b.visibilityFilter}
+          setVisibilityFilter={setVisibilityFilter}
+          count={b.count(count)}
+          style={b.style}
+        />
+      ))}
     </div>
+  )
+}
+
+const VisibilityButton = ({
+  text,
+  count,
+  currentVisibilityFilter,
+  visibilityFilter,
+  setVisibilityFilter,
+  style
+}) => {
+  const isSelected = currentVisibilityFilter === visibilityFilter
+
+  const className = classnames(
+    'visibility-button',
+    'btn',
+    {
+      'btn-light':   !isSelected,
+      'btn-success': isSelected && style === 1,
+      'btn-warning': isSelected && style === 2,
+      'btn-danger':  isSelected && style === 3,
+    },
+    'col',
+    'rounded-0'
+  )
+
+  return (
+    <button
+      className={className}
+      style={{ fontSize: '14px' }}
+      type="button"
+      onClick={() => setVisibilityFilter(visibilityFilter)}>
+      {text} ({count})
+    </button>
   )
 }
 
