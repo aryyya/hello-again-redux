@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import './App.css'
-// import { getId } from './utility'
-// import store from './store'
+import { getId } from './utility'
+import store from './store'
 
 import TodoInputForm from './components/todo-input-form'
 import VisibilityButtons from './components/visibility-buttons'
 import TodoList from './components/todo-list'
+
+const addTodo = text => {
+  store.dispatch({
+    type: 'ADD_TODO',
+    text,
+    id: getId()
+  })
+}
 
 const App = ({
   todos,
@@ -16,7 +24,8 @@ const App = ({
       <div className="row">
         <div className="col-md-6">
           <h1 className="pt-3 pb-2">Todo List</h1>
-          <TodoInputForm />
+          <TodoInputForm
+            addTodo={addTodo}/>
           <VisibilityButtons
             todos={todos}
             visibilityFilter={visibilityFilter} />

@@ -1,24 +1,18 @@
 import React, { useState } from 'react'
-import store from '../store'
-import { getId } from '../utility'
 
-const TodoInputForm = () => {
+const TodoInputForm = ({
+  addTodo
+}) => {
   const [ todoText, setTodoText ] = useState('')
 
-  const addTodo = (event) => {
+  const onSubmit = event => {
     event.preventDefault()
-
-    store.dispatch({
-      type: 'ADD_TODO',
-      text: todoText,
-      id: getId()
-    })
-
+    addTodo(todoText)
     setTodoText('')
   }
 
   return (
-    <form onSubmit={addTodo}>
+    <form onSubmit={onSubmit}>
       <input
         className="form-control col rounded-0 mb-3"
         type="text"
