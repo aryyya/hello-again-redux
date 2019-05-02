@@ -24,6 +24,20 @@ const setVisibilityFilter = filter => {
   })
 }
 
+const toggleTodo = id => {
+  dispatch({
+    type: 'TOGGLE_TODO',
+    id
+  })
+}
+
+const deleteTodo = id => {
+  dispatch({
+    type: 'DELETE_TODO',
+    id
+  })
+}
+
 const App = ({
   todos,
   visibilityFilter
@@ -43,7 +57,9 @@ const App = ({
         <div className="col-md-6">
           <TodoList
             todos={todos}
-            visibilityFilter={visibilityFilter} />
+            visibilityFilter={visibilityFilter}
+            toggleTodo={toggleTodo}
+            deleteTodo={deleteTodo} />
         </div>
       </div>
     </div>

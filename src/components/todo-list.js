@@ -1,46 +1,30 @@
 import React from 'react'
-import store from '../store'
+
+const todoFilterTests = {
+  'SHOW_ALL':        ()   => true,
+  'SHOW_COMPLETE':   todo => todo.isComplete,
+  'SHOW_INCOMPLETE': todo => !todo.isComplete
+}
+
+const getFilteredTodos = (todos, visibilityFilter) => {
+  const visibilityFilterTest = todoFilterTests[visibilityFilter]
+  return todos.filter(visibilityFilterTest)
+}
+
+const getTitleText = visibilityFilter => ({
+  'SHOW_ALL':        'All Todos',
+  'SHOW_COMPLETE':   'Complete Todos',
+  'SHOW_INCOMPLETE': 'Incomplete Todos'
+}[visibilityFilter])
 
 const TodoList = ({
   todos,
-  visibilityFilter
+  visibilityFilter,
+  toggleTodo,
+  deleteTodo
 }) => {
-  const toggleTodo = id => {
-    store.dispatch({
-      type: 'TOGGLE_TODO',
-      id
-    })
-  }
-
-  const deleteTodo = (event, id) => {
-    event.stopPropagation()
-    store.dispatch({
-      type: 'DELETE_TODO',
-      id
-    })
-  }
-
-  const filteredTodos = todos.filter(todo => {
-    switch (visibilityFilter) {
-      case 'SHOW_ALL':
-        return true
-      case 'SHOW_COMPLETE':
-        return todo.isComplete
-      case 'SHOW_INCOMPLETE':
-        return !todo.isComplete
-      default:
-        return true
-    }
-  })
-
-  const titleText = (() => {
-    switch (visibilityFilter) {
-      case 'SHOW_ALL':        return 'All Todos'
-      case 'SHOW_COMPLETE':   return 'Complete Todos'
-      case 'SHOW_INCOMPLETE': return 'Incomplete Todos'
-      default:                return ''
-    }
-  })()
+  const filteredTodos = getFilteredTodos(todos, visibilityFilter)
+  const titleText = getTitleText(visibilityFilter)
 
   return (
     <div>
@@ -75,7 +59,7 @@ const TodoList = ({
               <span
                 className="todo__delete"
                 style={deleteStyle}
-                onClick={(event) => deleteTodo(event, todo.id)}>
+                onClick={(event) => deleteTodo(todo.id)}>
                 <img
                   style={{ width: '15px' }}
                   src="/trash.svg"
