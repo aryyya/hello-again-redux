@@ -1,0 +1,8 @@
+.visibility-button {
+  transition: background-color .5s ease;
+}
+
+.visibility-button.btn:focus {
+  outline: none;
+  box-shadow: none;
+}

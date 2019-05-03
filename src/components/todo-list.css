@@ -1,0 +1,34 @@
+.todo-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  user-select: none;
+  transition: filter .5s ease;
+  height: 55px;
+  padding: 0;
+  padding-left: 20px;
+}
+
+.todo-list-item__text {
+  transition: color .5s ease;
+}
+
+.todo-list-item--is-complete .todo-list-item__text {
+  text-decoration: line-through;
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.todo-list-item__delete {
+  cursor: pointer;
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .5s ease;
+  background-color: rgba(0, 0, 0, .05);
+}
+
+.todo-list-item--delete-is-hovered {
+  filter: invert(1);
+}
