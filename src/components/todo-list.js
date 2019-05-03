@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React from 'react'
 import './todo-list.css'
-import classnames from 'classnames'
 
 const todoFilterTests = {
   'SHOW_ALL':        ()   => true,
@@ -30,8 +29,8 @@ const TodoList = ({
 
   return (
     <div>
-      <h3 className="pt-3 pb-2 text-md-right">{titleText} ({filteredTodos.length})</h3>
-      <ul className="list-group rounded-0">
+      <h3>{titleText} ({filteredTodos.length})</h3>
+      <ul>
         {filteredTodos.map(todo => (
           <TodoListItem
             key={todo.id}
@@ -49,37 +48,16 @@ const TodoListItem = ({
   toggleTodo,
   deleteTodo
 }) => {
-  const [ toggleIsHovered, setToggleIsHovered ] = useState(false)
-  const [ deleteIsHovered, setDeleteIsHovered ] = useState(false)
-
-  const classNames = classnames(
-    'todo-list-item',
-    { 'todo-list-item--is-complete': todo.isComplete },
-    { 'todo-list-item--toggle-is-hovered': toggleIsHovered },
-    { 'todo-list-item--delete-is-hovered': deleteIsHovered },
-    'list-group-item',
-    'rounded-0'
-  )
   return (
-    <li
-      key={todo.id}
-      className={classNames}>
-      <span className="todo-list-item__text">{todo.text}</span>
-      <span
-        className="todo-list-item__button todo-list-item__toggle"
-        onClick={() => toggleTodo(todo.id)}
-        onMouseOver={() => setToggleIsHovered(true)}
-        onMouseLeave={() => setToggleIsHovered(false)}>
+    <li key={todo.id}>
+      <span>{todo.text}</span>
+      <span onClick={() => toggleTodo(todo.id)}>
         <img
           style={{ width: '16px' }}
           src="/check.svg"
           alt="Toggle todo item." />
       </span>
-      <span
-        className="todo-list-item__button todo-list-item__delete"
-        onClick={() => deleteTodo(todo.id)}
-        onMouseOver={() => setDeleteIsHovered(true)}
-        onMouseLeave={() => setDeleteIsHovered(false)}>
+      <span onClick={() => deleteTodo(todo.id)}>
         <img
           style={{ width: '15px', position: 'relative', marginLeft: '4px'  }}
           src="/trash.svg"

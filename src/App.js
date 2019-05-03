@@ -43,10 +43,10 @@ const App = ({
   visibilityFilter
 }) => {
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-md-6">
-          <h1 className="pt-3 pb-2">Todo List</h1>
+    <div>
+      <div>
+        <div>
+          <h1>Todo List</h1>
           <TodoInputForm
             addTodo={addTodo}/>
           <VisibilityButtons
@@ -54,7 +54,7 @@ const App = ({
             visibilityFilter={visibilityFilter}
             setVisibilityFilter={setVisibilityFilter} />
         </div>
-        <div className="col-md-6">
+        <div>
           <TodoList
             todos={todos}
             visibilityFilter={visibilityFilter}

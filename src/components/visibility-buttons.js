@@ -1,6 +1,5 @@
 import React from 'react'
 import './visibility-buttons.css'
-import classnames from 'classnames'
 
 const getVisibilityFilterCount = todos => {
   return todos.reduce((count, todo) => ({
@@ -24,7 +23,7 @@ const VisibilityButtons = ({
   const count = getVisibilityFilterCount(todos)
 
   return (
-    <div className="row p-3">
+    <div>
       {visibilityButtons.map(b => (
         <VisibilityButton
           key={b.visibilityFilter}
@@ -33,7 +32,6 @@ const VisibilityButtons = ({
           visibilityFilter={b.visibilityFilter}
           setVisibilityFilter={setVisibilityFilter}
           count={b.count(count)}
-          style={b.style}
         />
       ))}
     </div>
@@ -45,27 +43,10 @@ const VisibilityButton = ({
   count,
   currentVisibilityFilter,
   visibilityFilter,
-  setVisibilityFilter,
-  style
+  setVisibilityFilter
 }) => {
-  const isSelected = currentVisibilityFilter === visibilityFilter
-
-  const className = classnames(
-    'visibility-button',
-    'btn',
-    {
-      'btn-light':   !isSelected,
-      'btn-success': isSelected && style === 1,
-      'btn-warning': isSelected && style === 2,
-      'btn-danger':  isSelected && style === 3,
-    },
-    'col',
-    'rounded-0'
-  )
-
   return (
     <button
-      className={className}
       style={{ fontSize: '14px' }}
       type="button"
       onClick={() => setVisibilityFilter(visibilityFilter)}>
