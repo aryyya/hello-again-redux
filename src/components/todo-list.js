@@ -49,26 +49,35 @@ const TodoListItem = ({
   toggleTodo,
   deleteTodo
 }) => {
+  const [ toggleIsHovered, setToggleIsHovered ] = useState(false)
   const [ deleteIsHovered, setDeleteIsHovered ] = useState(false)
 
   const classNames = classnames(
     'todo-list-item',
     { 'todo-list-item--is-complete': todo.isComplete },
+    { 'todo-list-item--toggle-is-hovered': toggleIsHovered },
     { 'todo-list-item--delete-is-hovered': deleteIsHovered },
     'list-group-item',
     'rounded-0'
   )
   return (
     <li
-      className={classNames}
-      onClick={() => toggleTodo(todo.id)}
-      key={todo.id}>
-      <span className="todo-list-item__text">
-        {todo.text}
+      key={todo.id}
+      className={classNames}>
+      <span className="todo-list-item__text">{todo.text}</span>
+      <span
+        className="todo-list-item__button todo-list-item__toggle"
+        onClick={() => toggleTodo(todo.id)}
+        onMouseOver={() => setToggleIsHovered(true)}
+        onMouseLeave={() => setToggleIsHovered(false)}>
+        <img
+          style={{ width: '16px' }}
+          src="/check.svg"
+          alt="Toggle todo item." />
       </span>
       <span
-        className="todo-list-item__delete"
-        onClick={(event) => deleteTodo(todo.id)}
+        className="todo-list-item__button todo-list-item__delete"
+        onClick={() => deleteTodo(todo.id)}
         onMouseOver={() => setDeleteIsHovered(true)}
         onMouseLeave={() => setDeleteIsHovered(false)}>
         <img
