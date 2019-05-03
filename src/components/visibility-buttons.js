@@ -1,5 +1,5 @@
 import React from 'react'
-import './visibility-buttons.css'
+import classnames from 'classnames'
 
 const getVisibilityFilterCount = todos => {
   return todos.reduce((count, todo) => ({
@@ -23,16 +23,20 @@ const VisibilityButtons = ({
   const count = getVisibilityFilterCount(todos)
 
   return (
-    <div>
+    <div className="field has-addons">
       {visibilityButtons.map(b => (
-        <VisibilityButton
-          key={b.visibilityFilter}
-          text={b.text}
-          currentVisibilityFilter={visibilityFilter}
-          visibilityFilter={b.visibilityFilter}
-          setVisibilityFilter={setVisibilityFilter}
-          count={b.count(count)}
-        />
+        <div
+          className="control is-expanded"
+          key={b.visibilityFilter}>
+          <VisibilityButton
+            text={b.text}
+            currentVisibilityFilter={visibilityFilter}
+            visibilityFilter={b.visibilityFilter}
+            setVisibilityFilter={setVisibilityFilter}
+            count={b.count(count)}
+            style={b.style}
+          />
+        </div>
       ))}
     </div>
   )
@@ -43,11 +47,22 @@ const VisibilityButton = ({
   count,
   currentVisibilityFilter,
   visibilityFilter,
-  setVisibilityFilter
+  setVisibilityFilter,
+  style
 }) => {
+  const isSelected = currentVisibilityFilter === visibilityFilter
+
+  const visibilityButtonClassNames = classnames(
+    'button',
+    'is-fullwidth',
+    { 'is-link':    isSelected && style === 1 },
+    { 'is-success': isSelected && style === 2 },
+    { 'is-danger':  isSelected && style === 3 },
+  )
+
   return (
     <button
-      style={{ fontSize: '14px' }}
+      className={visibilityButtonClassNames}
       type="button"
       onClick={() => setVisibilityFilter(visibilityFilter)}>
       {text} ({count})

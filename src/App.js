@@ -1,5 +1,6 @@
 import React from 'react'
-import './App.css'
+import './App.scss'
+import '@fortawesome/fontawesome-free/css/all.css'
 import { getId } from './utility'
 import store from './store'
 
@@ -43,9 +44,9 @@ const App = ({
   visibilityFilter
 }) => {
   return (
-    <div>
-      <div>
-        <div>
+    <div className="app content section">
+      <div className="columns">
+        <div className="column">
           <h1>Todo List</h1>
           <TodoInputForm
             addTodo={addTodo}/>
@@ -54,7 +55,7 @@ const App = ({
             visibilityFilter={visibilityFilter}
             setVisibilityFilter={setVisibilityFilter} />
         </div>
-        <div>
+        <div className="column">
           <TodoList
             todos={todos}
             visibilityFilter={visibilityFilter}

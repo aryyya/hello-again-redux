@@ -1,0 +1,18 @@
+.todo-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.todo-list-item > span {
+  display: flex;
+  align-items: center;
+}
+
+.todo-list-item__text {
+  margin-left: 1.25rem;
+}
+
+.todo-list-item--is-completed .todo-list-item__text {
+  text-decoration: line-through;
+}
