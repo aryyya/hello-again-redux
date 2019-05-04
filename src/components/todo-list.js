@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 import './todo-list.scss'
 import classnames from 'classnames'
 
@@ -19,7 +20,7 @@ const getTitleText = visibilityFilter => ({
   'SHOW_INCOMPLETE': 'Incomplete Todos'
 }[visibilityFilter])
 
-const TodoList = ({ store }) => {
+const TodoList = (props, { store }) => {
   const { todos, visibilityFilter } = store.getState()
   const filteredTodos = getFilteredTodos(todos, visibilityFilter)
   const titleText = getTitleText(visibilityFilter)
@@ -60,6 +61,10 @@ const TodoList = ({ store }) => {
       </ul>
     </div>
   )
+}
+
+TodoList.contextTypes = {
+  store: PropTypes.object
 }
 
 const TodoListItem = ({

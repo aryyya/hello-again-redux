@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.scss'
 import '@fortawesome/fontawesome-free/css/all.css'
-import store from './store'
 
 import TodoInputForm from './components/todo-input-form'
 import VisibilityButtons from './components/visibility-buttons'
@@ -13,11 +12,11 @@ const App = () => {
       <div className="columns">
         <div className="column">
           <h1>Todo List</h1>
-          <TodoInputForm store={store} />
-          <VisibilityButtons store={store} />
+          <TodoInputForm />
+          <VisibilityButtons />
         </div>
         <div className="column">
-          <TodoList store={store} />
+          <TodoList />
         </div>
       </div>
     </div>

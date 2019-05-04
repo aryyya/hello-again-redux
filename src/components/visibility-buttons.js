@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 
 const getVisibilityFilterCount = todos => {
@@ -15,7 +16,7 @@ const visibilityButtons = [
   { text: 'Incomplete', visibilityFilter: 'SHOW_INCOMPLETE', style: 3, count: count => count.incomplete                  }
 ]
 
-const VisibilityButtons = ({ store }) => {
+const VisibilityButtons = (props, { store }) => {
   const { todos, visibilityFilter } = store.getState()
   const count = getVisibilityFilterCount(todos)
 
@@ -52,6 +53,10 @@ const VisibilityButtons = ({ store }) => {
       ))}
     </div>
   )
+}
+
+VisibilityButtons.contextTypes = {
+  store: PropTypes.object
 }
 
 const VisibilityButton = ({

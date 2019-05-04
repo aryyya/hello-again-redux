@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import classnames from 'classnames'
 import { getId } from '../utility'
 
-const TodoInputForm = ({ store }) => {
+const TodoInputForm = (props, { store }) => {
   const [ todoText, setTodoText ] = useState('')
   const [ showError, setShowError ] = useState(false)
 
@@ -73,6 +74,10 @@ const TodoInputForm = ({ store }) => {
       </div>
     </form>
   )
+}
+
+TodoInputForm.contextTypes = {
+  store: PropTypes.object
 }
 
 export default TodoInputForm
