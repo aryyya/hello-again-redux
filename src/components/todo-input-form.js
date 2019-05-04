@@ -1,19 +1,13 @@
 import React, { useState } from 'react'
-import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
 import classnames from 'classnames'
 import { getId } from '../utility'
 
-const TodoInputForm = (props, { store }) => {
+const TodoInputForm = ({
+  addTodo
+}) => {
   const [ todoText, setTodoText ] = useState('')
   const [ showError, setShowError ] = useState(false)
-
-  const addTodo = text => {
-    store.dispatch({
-      type: 'ADD_TODO',
-      text,
-      id: getId()
-    })
-  }
 
   const updateTodoText = text => {
     setTodoText(text)
@@ -76,8 +70,16 @@ const TodoInputForm = (props, { store }) => {
   )
 }
 
-TodoInputForm.contextTypes = {
-  store: PropTypes.object
+const mapDispatchToProps = dispatch => {
+  return {
+    addTodo (text) {
+      dispatch({
+        type: 'ADD_TODO',
+        text,
+        id: getId()
+      })
+    }
+  }
 }
 
-export default TodoInputForm
+export default connect(null, mapDispatchToProps)(TodoInputForm)

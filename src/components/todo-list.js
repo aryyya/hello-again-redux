@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
 import './todo-list.scss'
 import classnames from 'classnames'
 
@@ -20,32 +20,14 @@ const getTitleText = visibilityFilter => ({
   'SHOW_INCOMPLETE': 'Incomplete Todos'
 }[visibilityFilter])
 
-const TodoList = (props, { store }) => {
-  const { todos, visibilityFilter } = store.getState()
+const TodoList = ({
+  todos,
+  visibilityFilter,
+  toggleTodo,
+  deleteTodo
+}) => {
   const filteredTodos = getFilteredTodos(todos, visibilityFilter)
   const titleText = getTitleText(visibilityFilter)
-
-  const toggleTodo = id => {
-    store.dispatch({
-      type: 'TOGGLE_TODO',
-      id
-    })
-  }
-  
-  const deleteTodo = id => {
-    store.dispatch({
-      type: 'DELETE_TODO',
-      id
-    })
-  }  
-
-  const [ forceUpdate, setForceUpdate ] = useState(0)
-  useEffect(() => {
-    const unsubscribe = store.subscribe(() => {
-      setForceUpdate(forceUpdate + 1)
-    })
-    return unsubscribe
-  })
 
   return (
     <div className="box">
@@ -63,9 +45,35 @@ const TodoList = (props, { store }) => {
   )
 }
 
-TodoList.contextTypes = {
-  store: PropTypes.object
+const mapStateToProps = ({
+  todos,
+  visibilityFilter
+}) => {
+  return {
+    todos,
+    visibilityFilter
+  }
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleTodo (id) {
+      dispatch({
+        type: 'TOGGLE_TODO',
+        id
+      })
+    },
+
+    deleteTodo (id) {
+      dispatch({
+        type: 'DELETE_TODO',
+        id
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodoList)
 
 const TodoListItem = ({
   todo,
@@ -104,5 +112,3 @@ const TodoListItem = ({
     </li>
   )
 }
-
-export default TodoList

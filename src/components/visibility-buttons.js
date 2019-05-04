@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
+import React from 'react'
+import { connect } from 'react-redux'
 import classnames from 'classnames'
 
 const getVisibilityFilterCount = todos => {
@@ -16,24 +16,12 @@ const visibilityButtons = [
   { text: 'Incomplete', visibilityFilter: 'SHOW_INCOMPLETE', style: 3, count: count => count.incomplete                  }
 ]
 
-const VisibilityButtons = (props, { store }) => {
-  const { todos, visibilityFilter } = store.getState()
+const VisibilityButtons = ({
+  todos,
+  visibilityFilter,
+  setVisibilityFilter
+}, { store }) => {
   const count = getVisibilityFilterCount(todos)
-
-  const setVisibilityFilter = filter => {
-    store.dispatch({
-      type: 'SET_VISIBILITY_FILTER',
-      filter
-    })
-  }
-  
-  const [ forceUpdate, setForceUpdate ] = useState(0)
-  useEffect(() => {
-    const unsubscribe = store.subscribe(() => {
-      setForceUpdate(forceUpdate + 1)
-    })
-    return unsubscribe
-  })
 
   return (
     <div className="field has-addons">
@@ -53,10 +41,6 @@ const VisibilityButtons = (props, { store }) => {
       ))}
     </div>
   )
-}
-
-VisibilityButtons.contextTypes = {
-  store: PropTypes.object
 }
 
 const VisibilityButton = ({
@@ -87,4 +71,25 @@ const VisibilityButton = ({
   )
 }
 
-export default VisibilityButtons
+const mapStateToProps = ({
+  todos,
+  visibilityFilter
+}) => {
+  return {
+    todos,
+    visibilityFilter
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setVisibilityFilter (filter) {
+      dispatch({
+        type: 'SET_VISIBILITY_FILTER',
+        filter
+      })
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(VisibilityButtons)
