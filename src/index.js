@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import App from './App'
 import store from './store'
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from './serviceWorker'
 
 const root = document.getElementById('root')
 const renderApp = () => {
@@ -15,4 +15,4 @@ const renderApp = () => {
 store.subscribe(renderApp)
 renderApp()
 
-serviceWorker.unregister();
+serviceWorker.unregister()
