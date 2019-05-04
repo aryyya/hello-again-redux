@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
-import store from '../store'
-
-const setVisibilityFilter = filter => {
-  store.dispatch({
-    type: 'SET_VISIBILITY_FILTER',
-    filter
-  })
-}
 
 const getVisibilityFilterCount = todos => {
   return todos.reduce((count, todo) => ({
@@ -23,9 +15,16 @@ const visibilityButtons = [
   { text: 'Incomplete', visibilityFilter: 'SHOW_INCOMPLETE', style: 3, count: count => count.incomplete                  }
 ]
 
-const VisibilityButtons = () => {
+const VisibilityButtons = ({ store }) => {
   const { todos, visibilityFilter } = store.getState()
   const count = getVisibilityFilterCount(todos)
+
+  const setVisibilityFilter = filter => {
+    store.dispatch({
+      type: 'SET_VISIBILITY_FILTER',
+      filter
+    })
+  }
   
   const [ forceUpdate, setForceUpdate ] = useState(0)
   useEffect(() => {

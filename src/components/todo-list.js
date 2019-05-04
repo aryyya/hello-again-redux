@@ -1,21 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './todo-list.scss'
 import classnames from 'classnames'
-import store from '../store'
-
-const toggleTodo = id => {
-  store.dispatch({
-    type: 'TOGGLE_TODO',
-    id
-  })
-}
-
-const deleteTodo = id => {
-  store.dispatch({
-    type: 'DELETE_TODO',
-    id
-  })
-}
 
 const todoFilterTests = {
   'SHOW_ALL':        ()   => true,
@@ -34,10 +19,24 @@ const getTitleText = visibilityFilter => ({
   'SHOW_INCOMPLETE': 'Incomplete Todos'
 }[visibilityFilter])
 
-const TodoList = () => {
+const TodoList = ({ store }) => {
   const { todos, visibilityFilter } = store.getState()
   const filteredTodos = getFilteredTodos(todos, visibilityFilter)
   const titleText = getTitleText(visibilityFilter)
+
+  const toggleTodo = id => {
+    store.dispatch({
+      type: 'TOGGLE_TODO',
+      id
+    })
+  }
+  
+  const deleteTodo = id => {
+    store.dispatch({
+      type: 'DELETE_TODO',
+      id
+    })
+  }  
 
   const [ forceUpdate, setForceUpdate ] = useState(0)
   useEffect(() => {

@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
 import classnames from 'classnames'
-import store from '../store'
 import { getId } from '../utility'
 
-const addTodo = text => {
-  store.dispatch({
-    type: 'ADD_TODO',
-    text,
-    id: getId()
-  })
-}
-
-const TodoInputForm = () => {
+const TodoInputForm = ({ store }) => {
   const [ todoText, setTodoText ] = useState('')
   const [ showError, setShowError ] = useState(false)
+
+  const addTodo = text => {
+    store.dispatch({
+      type: 'ADD_TODO',
+      text,
+      id: getId()
+    })
+  }
 
   const updateTodoText = text => {
     setTodoText(text)
