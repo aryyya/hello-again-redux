@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import classnames from 'classnames'
 import store from '../store'
 
@@ -12,7 +12,7 @@ const setVisibilityFilter = filter => {
 const getVisibilityFilterCount = todos => {
   return todos.reduce((count, todo) => ({
     ...count,
-    complete: todo.isComplete ? count.complete + 1 : count.complete,
+    complete:    todo.isComplete ? count.complete   + 1 : count.complete,
     incomplete: !todo.isComplete ? count.incomplete + 1 : count.incomplete
   }), { complete: 0, incomplete: 0 })
 }
@@ -26,6 +26,14 @@ const visibilityButtons = [
 const VisibilityButtons = () => {
   const { todos, visibilityFilter } = store.getState()
   const count = getVisibilityFilterCount(todos)
+  
+  const [ forceUpdate, setForceUpdate ] = useState(0)
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      setForceUpdate(forceUpdate + 1)
+    })
+    return unsubscribe
+  })
 
   return (
     <div className="field has-addons">

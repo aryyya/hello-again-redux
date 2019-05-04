@@ -1,7 +1,6 @@
 import React from 'react'
 import './App.scss'
 import '@fortawesome/fontawesome-free/css/all.css'
-import store from './store'
 
 import TodoInputForm from './components/todo-input-form'
 import VisibilityButtons from './components/visibility-buttons'

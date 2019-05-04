@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './todo-list.scss'
 import classnames from 'classnames'
 import store from '../store'
@@ -38,6 +38,14 @@ const TodoList = () => {
   const { todos, visibilityFilter } = store.getState()
   const filteredTodos = getFilteredTodos(todos, visibilityFilter)
   const titleText = getTitleText(visibilityFilter)
+
+  const [ forceUpdate, setForceUpdate ] = useState(0)
+  useEffect(() => {
+    const unsubscribe = store.subscribe(() => {
+      setForceUpdate(forceUpdate + 1)
+    })
+    return unsubscribe
+  })
 
   return (
     <div className="box">

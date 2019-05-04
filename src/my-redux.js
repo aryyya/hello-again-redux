@@ -18,11 +18,18 @@ export const myCombineReducers = reducers => {
 
 export const myCreateStore = topReducer => {
   let state
-  const subscribers = []
+  let subscribers = []
 
-  const getState = () => state
+  const getState = () => {
+    return state
+  }
 
-  const subscribe = subscriber => subscribers.push(subscriber)
+  const subscribe = subscriber => {
+    subscribers.push(subscriber)
+    return () => {
+      subscribers = subscribers.filter(subscriber_ => subscriber_ !== subscriber)
+    }
+  }
 
   const dispatch = action => {
     state = topReducer(state, action)
