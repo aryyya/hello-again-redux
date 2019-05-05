@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import './todo-list.scss'
 import classnames from 'classnames'
-import { toggleTodo, deleteTodo } from '../store/action-creators'
+import { toggleTodo, deleteTodo } from '../store/creators/todos'
 
 const todoFilterTests = {
   'SHOW_ALL':        ()   => true,

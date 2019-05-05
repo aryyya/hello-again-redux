@@ -1,15 +1,20 @@
+import {
+  ADD_TODO,
+  TOGGLE_TODO,
+  DELETE_TODO
+} from '../types/todos'
 import assert from 'assert'
-import { getId } from '../utility'
+import { getId } from '../../utility'
 
 const todo = (state, action) => {
   switch (action.type) {
-    case 'ADD_TODO':
+    case ADD_TODO:
       return {
         id: action.id,
         text: action.text,
         isComplete: false
       }
-    case 'TOGGLE_TODO':
+    case TOGGLE_TODO:
       if (state.id === action.id) {
         return {
           ...state,
@@ -42,14 +47,14 @@ const defaultTodos = [
 
 export const todos = (state = defaultTodos, action) => {
   switch (action.type) {
-    case 'ADD_TODO':
+    case ADD_TODO:
       return [
         ...state,
         todo(undefined, action)
       ]
-    case 'TOGGLE_TODO':
+    case TOGGLE_TODO:
       return state.map(todo_ => todo(todo_, action))
-    case 'DELETE_TODO':
+    case DELETE_TODO:
       return state.filter(todo => todo.id !== action.id)
     default:
       return state
@@ -58,7 +63,7 @@ export const todos = (state = defaultTodos, action) => {
 const testAddTodo = () => {
   const stateBefore = []
   const action = {
-    type: 'ADD_TODO',
+    type: ADD_TODO,
     text: 'Learn Redux',
     id: 0
   }
@@ -87,7 +92,7 @@ const testToggleTodo = () => {
     { text: 'Eat bananas.', isComplete: false, id: 1 }
   ]
   const action = {
-    type: 'TOGGLE_TODO',
+    type: TOGGLE_TODO,
     id: 1
   }
   Object.freeze(stateBefore)
@@ -105,50 +110,3 @@ const testToggleTodo = () => {
   )
 }
 testToggleTodo()
-
-export const visibilityFilter = (
-  state = 'SHOW_ALL',
-  action
-) => {
-  switch (action.type) {
-    case 'SET_VISIBILITY_FILTER':
-      return action.filter
-    default:
-      return state
-  }
-}
-
-const testVisibilityFilterDefault = () => {
-  const stateBefore = undefined
-  const action = {}
-  Object.freeze(stateBefore)
-  Object.freeze(action)
-
-  const stateAfter = 'SHOW_ALL'
-
-  assert.deepStrictEqual(
-    visibilityFilter(stateBefore, action),
-    stateAfter,
-    'testVisibilityFilterDefault' 
-  )
-}
-testVisibilityFilterDefault()
-
-const testVisibilityFilterShowComplete = () => {
-  const stateBefore = 'SHOW_ALL'
-  const action = {
-    type: 'SET_VISIBILITY_FILTER',
-    filter: 'SHOW_COMPLETE'
-  }
-  Object.freeze(stateBefore)
-  Object.freeze(action)
-
-  const stateAfter = 'SHOW_COMPLETE'
-
-  assert.deepStrictEqual(
-    visibilityFilter(stateBefore, action),
-    stateAfter,
-    'testVisibilityFilterShowComplete'
-  )
-}
-testVisibilityFilterShowComplete()

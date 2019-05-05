@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
-import { setVisibilityFilter } from '../store/action-creators'
+import { setVisibilityFilter } from '../store/creators/visibility-filter'
 
 const getVisibilityFilterCount = todos => {
   return todos.reduce((count, todo) => ({

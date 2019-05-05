@@ -1,5 +1,7 @@
 import { myCreateStore, myCombineReducers } from '../my-redux'
-import { todos, visibilityFilter } from './reducers'
+
+import { todos } from './reducers/todos'
+import { visibilityFilter } from './reducers/visibility-filter'
 
 const todoApp = myCombineReducers({
   todos,

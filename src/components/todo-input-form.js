@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
-import { addTodo } from '../store/action-creators'
+import { addTodo } from '../store/creators/todos'
 
 const TodoInputForm = ({
   addTodo
