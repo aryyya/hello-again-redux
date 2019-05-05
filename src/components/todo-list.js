@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import './todo-list.scss'
 import classnames from 'classnames'
+import { toggleTodo, deleteTodo } from '../store/action-creators'
 
 const todoFilterTests = {
   'SHOW_ALL':        ()   => true,
@@ -58,17 +59,11 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => {
   return {
     toggleTodo (id) {
-      dispatch({
-        type: 'TOGGLE_TODO',
-        id
-      })
+      dispatch(toggleTodo(id))
     },
 
     deleteTodo (id) {
-      dispatch({
-        type: 'DELETE_TODO',
-        id
-      })
+      dispatch(deleteTodo(id))
     }
   }
 }

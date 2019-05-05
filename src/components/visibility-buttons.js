@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
+import { setVisibilityFilter } from '../store/action-creators'
 
 const getVisibilityFilterCount = todos => {
   return todos.reduce((count, todo) => ({
@@ -84,10 +85,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = dispatch => {
   return {
     setVisibilityFilter (filter) {
-      dispatch({
-        type: 'SET_VISIBILITY_FILTER',
-        filter
-      })
+      dispatch(setVisibilityFilter(filter))
     }
   }
 }

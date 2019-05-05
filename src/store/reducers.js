@@ -1,6 +1,5 @@
-import { myCreateStore, myCombineReducers } from './my-redux'
 import assert from 'assert'
-import { getId } from './utility'
+import { getId } from '../utility'
 
 const todo = (state, action) => {
   switch (action.type) {
@@ -41,7 +40,7 @@ const defaultTodos = [
   }
 ]
 
-const todos = (state = defaultTodos, action) => {
+export const todos = (state = defaultTodos, action) => {
   switch (action.type) {
     case 'ADD_TODO':
       return [
@@ -107,7 +106,7 @@ const testToggleTodo = () => {
 }
 testToggleTodo()
 
-const visibilityFilter = (
+export const visibilityFilter = (
   state = 'SHOW_ALL',
   action
 ) => {
@@ -153,15 +152,3 @@ const testVisibilityFilterShowComplete = () => {
   )
 }
 testVisibilityFilterShowComplete()
-
-const todoApp = myCombineReducers({
-  todos,
-  visibilityFilter
-})
-
-const store = myCreateStore(
-  todoApp,
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
-
-export default store

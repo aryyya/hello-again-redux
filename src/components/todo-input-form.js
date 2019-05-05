@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
-import { getId } from '../utility'
+import { addTodo } from '../store/action-creators'
 
 const TodoInputForm = ({
   addTodo
@@ -72,12 +72,8 @@ const TodoInputForm = ({
 
 const mapDispatchToProps = dispatch => {
   return {
-    addTodo (text) {
-      dispatch({
-        type: 'ADD_TODO',
-        text,
-        id: getId()
-      })
+    addTodo (id) {
+      dispatch(addTodo(id))
     }
   }
 }
