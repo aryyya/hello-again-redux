@@ -1,3 +1,3 @@
 # hello-again-redux
 
-A simple PWA with React and my own reimplementation of Redux.
+A simple app with React and my own implementation of Redux.
