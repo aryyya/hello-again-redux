@@ -8,9 +8,22 @@ const todoApp = myCombineReducers({
   visibilityFilter
 })
 
-const store = myCreateStore(
-  todoApp,
-  // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+const store = myCreateStore(todoApp)
+
+// Save state to local storage whenever it is modified.
+store.subscribe(() => {
+  localStorage.setItem(
+    'todo-app',
+    JSON.stringify(store.getState())
+  )
+})
+
+// Load previous state from local storage if it exists.
+const previousState = localStorage.getItem('todo-app')
+if (previousState) {
+  store.setState(
+    JSON.parse(previousState)
+  )
+}
 
 export default store

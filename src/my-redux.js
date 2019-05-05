@@ -24,6 +24,10 @@ export const myCreateStore = topReducer => {
     return state
   }
 
+  const setState = newState => {
+    state = newState
+  }
+
   const subscribe = subscriber => {
     subscribers.push(subscriber)
     return () => {
@@ -38,5 +42,5 @@ export const myCreateStore = topReducer => {
 
   state = topReducer(state, {})
 
-  return { getState, subscribe, dispatch }
+  return { getState, setState, subscribe, dispatch }
 }
