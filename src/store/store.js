@@ -10,16 +10,18 @@ const todoApp = myCombineReducers({
 
 const store = myCreateStore(todoApp)
 
+const localStorageKey = 'todo-app'
+
 // Save state to local storage whenever it is modified.
 store.subscribe(() => {
   localStorage.setItem(
-    'todo-app',
+    localStorageKey,
     JSON.stringify(store.getState())
   )
 })
 
 // Load previous state from local storage if it exists.
-const previousState = localStorage.getItem('todo-app')
+const previousState = localStorage.getItem(localStorageKey)
 if (previousState) {
   store.setState(
     JSON.parse(previousState)
